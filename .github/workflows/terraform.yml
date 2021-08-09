@@ -82,7 +82,9 @@ jobs:
     - name: test SCP2
       run: make get-token >> terraform-sa-key.json
     - name: test SCP1
-      run: ls -a
+      run: |
+        ls -a
+        cat terraform-sa-key.json
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 #      with:
