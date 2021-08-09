@@ -77,10 +77,12 @@ jobs:
         service_account_key: ${{ secrets.GKE_SA_KEY }}
         project_id: mussia8
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: test SCP
+    - name: test SCP3
       run: gcloud config list
-    - name: test SCP
+    - name: test SCP2
       run: make get-token >> terraform-sa-key.json
+    - name: test SCP1
+      run: ls -a
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 #      with:
