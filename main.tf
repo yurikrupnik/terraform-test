@@ -13,11 +13,11 @@ terraform {
   //    source  = "hashicorp/random"
   //    version = ">=2.2.1"
   //  }
-  backend "gcs" {
-    credentials = "terraform-sa-key.json"
-    bucket  = "mussia8-terraform"
-    prefix  = "prod"
-  }
+//  backend "gcs" {
+//    credentials = "terraform-sa-key.json"
+//    bucket  = "mussia8-terraform"
+//    prefix  = "prod"
+//  }
 }
 
 provider "google" {
