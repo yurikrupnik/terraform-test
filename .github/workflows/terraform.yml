@@ -86,10 +86,10 @@ jobs:
         fileName: 'terraform-sa-key.json'
         encodedString: make get-token
 
-    - name: Some other step
-      uses: actions/someaction@master
-      with:
-        filelocation: ${{ steps.write_file.outputs.filePath }}
+#    - name: Some other step
+#      uses: actions/someaction@master
+#      with:
+#        filelocation: ${{ steps.write_file.outputs.filePath }}
 #    - name: test SCP2
 #      run: make get-token >> terraform-sa-key.json
     - name: test SCP1
