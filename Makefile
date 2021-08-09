@@ -14,10 +14,14 @@ create-file:
 
 use-sa:
 	gcloud auth list
-
-tp:
-	gcloud auth list
-	terraform plan
+projects:
+	gcloud projects list --impersonate-service-account=general-sa@mussia8.iam.gserviceaccount.com
+set-auth:
+	gcloud config set auth/impersonate_service_account yuris-persona-sa@mussia8.iam.gserviceaccount.com
+test-gcs:
+	gsutil -i yuris-persona-sa@mussia8.iam.gserviceaccount.com ls
+get-token:
+	gcloud auth print-access-token
 
 td:
 	terraform destroy -auto-approve

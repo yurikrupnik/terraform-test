@@ -55,6 +55,22 @@ data "google_iam_role" "roleinfo" {
 //output "the-google_service_account" {
 //  value = google_service_account.data-developer
 //}
+
+// STORAGE TEST
+resource "google_service_account" "storage-admin" {
+  account_id   = "storage-admin"
+  display_name = "My storage admin service account"
+}
+
+resource "google_project_iam_binding" "storage-admin-binding" {
+  role    = "roles/storage.admin"
+  members = [
+    "serviceAccount:${google_service_account.storage-admin.email}"
+  ]
+}
+// STORAGE TEST end
+
+
 resource "google_service_account" "genera-sa" {
   account_id   = "general-sa"
   display_name = "My data developer service account"
@@ -86,12 +102,15 @@ resource "google_project_iam_binding" "binding1" {
 }
 
 resource "google_project_iam_binding" "binding3" {
+//  role    = var.publisher
   role    = "roles/iam.serviceAccountTokenCreator"
   members = [
-    "serviceAccount:${google_service_account.genera-sa.email}"
+    "serviceAccount:${google_service_account.genera-sa.email}",
+    "user:krupnik.yuri@gmail.com"
   ]
 }
 
+// Allow bi-developer service to createtockens for data-developer
 resource "google_service_account_iam_binding" "token-creator-iam" {
 //  service_account_id = "projects/-/serviceAccounts/${google_service_account.data-developer.email}"
   service_account_id = google_service_account.data-developer.id
@@ -99,6 +118,34 @@ resource "google_service_account_iam_binding" "token-creator-iam" {
   members = [
     "serviceAccount:${google_service_account.bi-developer.email}",
   ]
+}
+
+
+data "google_client_config" "default" {
+  provider = google
+}
+
+//data "google_service_account_access_token" "default" {
+////  provider               = google
+////  target_service_account = "github-acc@mussia8.iam.gserviceaccount.com"
+//  target_service_account = "yuris-persona-sa@mussia8.iam.gserviceaccount.com"
+////  target_service_account = google_service_account.genera-sa.email
+//  scopes                 = ["cloud-platform"]
+//  lifetime               = "300s"
+//}
+
+
+provider "google" {
+  alias        = "impersonated"
+//  access_token = data.google_service_account_access_token.default.access_token
+}
+//
+data "google_client_openid_userinfo" "me" {
+  provider = google.impersonated
+}
+//
+output "target-email" {
+  value = data.google_client_openid_userinfo.me.email
 }
 
 //resource "google_service_account_iam_binding" "token-creator-iam" {
