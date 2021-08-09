@@ -84,7 +84,7 @@ jobs:
       uses: timheuer/base64-to-file@v1
       with:
         fileName: 'terraform-sa-key.json'
-        encodedString: make get-token
+        encodedString: ${{ make get-token }}
 
 #    - name: Some other step
 #      uses: actions/someaction@master5
