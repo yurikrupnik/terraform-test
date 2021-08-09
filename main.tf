@@ -55,6 +55,10 @@ data "google_iam_role" "roleinfo" {
 //output "the-google_service_account" {
 //  value = google_service_account.data-developer
 //}
+resource "google_service_account" "genera-sa" {
+  account_id   = "general-sa"
+  display_name = "My data developer service account"
+}
 
 resource "google_service_account" "data-developer" {
   account_id   = "data-developer"
@@ -75,26 +79,50 @@ resource "google_project_iam_binding" "binding" {
 }
 
 resource "google_project_iam_binding" "binding1" {
-  role    = "roles/cloudfunctions.developer"
+  role    = var.cf-developer
   members = [
     "serviceAccount:${google_service_account.bi-developer.email}"
   ]
 }
 
-resource "google_project_iam_policy" "project" {
-  project     = var.project
-  policy_data = data.google_iam_policy.admin.policy_data
+resource "google_project_iam_binding" "binding3" {
+  role    = "roles/iam.serviceAccountTokenCreator"
+  members = [
+    "serviceAccount:${google_service_account.genera-sa.email}"
+  ]
 }
 
-data "google_iam_policy" "admin" {
-  binding {
-    role = "roles/compute.instanceAdmin"
-
-    members = [
-      "user:CreativeAris99@gmail.com",
-    ]
-  }
+resource "google_service_account_iam_binding" "token-creator-iam" {
+//  service_account_id = "projects/-/serviceAccounts/${google_service_account.data-developer.email}"
+  service_account_id = google_service_account.data-developer.id
+  role               = "roles/iam.serviceAccountTokenCreator"
+  members = [
+    "serviceAccount:${google_service_account.bi-developer.email}",
+  ]
 }
+
+//resource "google_service_account_iam_binding" "token-creator-iam" {
+//  service_account_id = "projects/-/serviceAccounts/service_B@projectB.iam.gserviceaccount.com"
+//  role               = "roles/iam.serviceAccountTokenCreator"
+//  members = [
+//    "serviceAccount:service_A@projectA.iam.gserviceaccount.com",
+//  ]
+//}
+
+//resource "google_project_iam_policy" "project" {
+//  project     = var.project
+//  policy_data = data.google_iam_policy.admin.policy_data
+//}
+//
+//data "google_iam_policy" "admin" {
+//  binding {
+//    role = "roles/compute.instanceAdmin"
+//
+//    members = [
+//      "user:CreativeAris99@gmail.com",
+//    ]
+//  }
+//}
 //resource "google_project_iam_policy" "project" {
 //  project     = var.project
 //  policy_data = data.google_iam_policy.admin.policy_data
@@ -178,4 +206,32 @@ data "google_iam_policy" "admin" {
 //
 //output "dama" {
 //  value = google_service_account.storage.email
+//}
+
+//resource "google_service_account_key" "mykey" {
+//  service_account_id = google_service_account.bi-developer.name
+//}
+
+
+//data "google_client_config" "default" {
+//  provider = google
+//}
+//data "google_service_account_access_token" "default" {
+//  provider               = google
+//  target_service_account = "service_B@projectB.iam.gserviceaccount.com"
+//  scopes                 = ["userinfo-email", "cloud-platform"]
+//  lifetime               = "300s"
+//}
+//
+//provider "google" {
+//  alias        = "impersonated"
+//  access_token = data.google_service_account_access_token.default.access_token
+//}
+//
+//resource "google_service_account_iam_binding" "token-creator-iam" {
+//  service_account_id = "projects/-/serviceAccounts/service_B@projectB.iam.gserviceaccount.com"
+//  role               = "roles/iam.serviceAccountTokenCreator"
+//  members = [
+//    "serviceAccount:service_A@projectA.iam.gserviceaccount.com",
+//  ]
 //}

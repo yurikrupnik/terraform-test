@@ -24,6 +24,9 @@ variable "bucketName" {
 variable "publisher" {
   default = "roles/pubsub.publisher"
 }
+variable "cf-developer" {
+  default = "roles/cloudfunctions.developer"
+}
 
 //variable "publisher1" {
 //  default = object({
