@@ -24,6 +24,7 @@ provider "google" {
   # credentials = "terraform-sa-key.json"
   //  credentials = file("<NAME>.json")
 
+
   project = var.project
   region  = var.location
   zone    = var.zone
