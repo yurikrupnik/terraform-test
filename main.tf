@@ -30,12 +30,30 @@ provider "google" {
 
 }
 
+variable "ads" {
+  default = "do it"
+}
 
+locals {
+  dos = "ads"
+}
 
+data "google_iam_role" "roleinfo" {
+  name = var.publisher
+}
 
-//resource "google_project_iam_policy" "project" {
-//  project     = var.project
-//  policy_data = data.google_iam_policy.admin.policy_data
+//data "google_client_config" "current" {
+//}
+//
+//output "project" {
+//  value = data.google_client_config.current.project
+//}
+
+//output "the_role_permissions" {
+//  value = data.google_iam_role.roleinfo
+//}
+//output "the-google_service_account" {
+//  value = google_service_account.data-developer
 //}
 
 resource "google_service_account" "data-developer" {
@@ -43,18 +61,19 @@ resource "google_service_account" "data-developer" {
   display_name = "My data developer service account"
 }
 
-
 resource "google_service_account" "bi-developer" {
   account_id   = "bi-developer"
   display_name = "My bi developer service account"
 }
 
 resource "google_project_iam_binding" "binding" {
-  role    = "roles/run.developer"
+  role    = data.google_iam_role.roleinfo.id
+//  role    = "roles/pubsub.publisher"
   members = [
     "serviceAccount:${google_service_account.data-developer.email}"
   ]
 }
+
 resource "google_project_iam_binding" "binding1" {
   role    = "roles/cloudfunctions.developer"
   members = [
@@ -62,6 +81,24 @@ resource "google_project_iam_binding" "binding1" {
   ]
 }
 
+resource "google_project_iam_policy" "project" {
+  project     = var.project
+  policy_data = data.google_iam_policy.admin.policy_data
+}
+
+data "google_iam_policy" "admin" {
+  binding {
+    role = "roles/compute.instanceAdmin"
+
+    members = [
+      "user:CreativeAris99@gmail.com",
+    ]
+  }
+}
+//resource "google_project_iam_policy" "project" {
+//  project     = var.project
+//  policy_data = data.google_iam_policy.admin.policy_data
+//}
 
 # data "google_iam_policy" "admin" {
 #   binding {
@@ -80,15 +117,56 @@ resource "google_project_iam_binding" "binding1" {
 # }
 
 // Give role of serviceAccountUser to CreativeAris99@gmail.com over the service account
-resource "google_service_account_iam_binding" "admin-account-iam" {
-  service_account_id = google_service_account.data-developer.name
-  role               = "roles/iam.serviceAccountUser"
+//resource "google_service_account_iam_binding" "admin-account-iam" {
+//  service_account_id = google_service_account.data-developer.name
+//  role               = "roles/iam.serviceAccountUser"
+//
+//  members = [
+//    "serviceAccount:${google_service_account.data-developer.email}"
+////    "user:CreativeAris99@gmail.com",
+//  ]
+//  condition {
+//    title       = "expires_after_2022_12_31"
+//    description = "Expiring at midnight of 2022-12-31"
+//    expression  = "request.time < timestamp(\"2020-01-01T00:00:00Z\")"
+//  }
+//}
 
-  members = [
-    "user:CreativeAris99@gmail.com",
-  ]
-}
-
+// todo test again and assign somewhere
+// https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/iam_policy
+//data "google_iam_policy" "admin" {
+//  binding {
+//    role = "roles/compute.instanceAdmin"
+//
+//    members = [
+//      "serviceAccount:${google_service_account.data-developer.email}"
+//    ]
+//  }
+//
+//  binding {
+//    role = "roles/storage.objectViewer"
+//
+//    members = [
+//      "user:CreativeAris99@gmail.com",
+//    ]
+//  }
+//
+//  //  audit_config {
+//  //    service = "cloudkms.googleapis.com"
+//  //    audit_log_configs {
+//  //      log_type = "DATA_READ",
+//  //      exempted_members = ["user:krupnik.yuri@gmail.com"]
+//  //    }
+//
+//  //    audit_log_configs {
+//  //      log_type = "DATA_WRITE",
+//  //    }
+//  //
+//  //    audit_log_configs {
+//  //      log_type = "ADMIN_READ",
+//  //    }
+//  //  }
+//}
 
 
 //output "damss" {

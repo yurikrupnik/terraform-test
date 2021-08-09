@@ -21,6 +21,17 @@ variable "bucketName" {
   default = "be-events-raw-data"
 }
 
+variable "publisher" {
+  default = "roles/pubsub.publisher"
+}
+
+//variable "publisher1" {
+//  default = object({
+//    roles: string
+//    age: number
+//  })
+//
+//}
 
 
 // examples
