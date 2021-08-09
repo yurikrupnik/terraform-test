@@ -79,6 +79,8 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: test SCP
       run: gcloud config list
+    - name: test SCP
+      run: make get-token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 #      with:
