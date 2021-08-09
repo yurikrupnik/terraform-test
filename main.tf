@@ -22,7 +22,8 @@ terraform {
 
 provider "google" {
   # credentials = "terraform-sa-key.json"
-  //  credentials = file("<NAME>.json")
+//    credentials = ${{ secrets.GKE_SA_KEY }}
+//    credentials =
 
 
   project = var.project
