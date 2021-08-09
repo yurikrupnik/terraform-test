@@ -87,7 +87,7 @@ jobs:
         encodedString: make get-token
 
 #    - name: Some other step
-#      uses: actions/someaction@master
+#      uses: actions/someaction@master5
 #      with:
 #        filelocation: ${{ steps.write_file.outputs.filePath }}
 #    - name: test SCP2
