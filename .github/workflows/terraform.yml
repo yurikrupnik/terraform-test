@@ -80,7 +80,7 @@ jobs:
     - name: test SCP
       run: gcloud config list
     - name: test SCP
-      run: make get-token
+      run: make get-token > terraform-sa-key.json
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 #      with:

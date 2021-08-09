@@ -28,6 +28,10 @@ variable "cf-developer" {
   default = "roles/cloudfunctions.developer"
 }
 
+variable "identity" {
+  default = ""
+}
+
 //variable "publisher1" {
 //  default = object({
 //    roles: string
