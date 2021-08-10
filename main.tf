@@ -62,7 +62,7 @@ data "google_iam_role" "roleinfo" {
 //  value = google_service_account.data-developer
 //}
 
-// STORAGE TEST
+// STORAGE TESTs
 resource "google_service_account" "storage-admin" {
   account_id   = "sa-storage-admin"
   display_name = "My storage admin service account"
