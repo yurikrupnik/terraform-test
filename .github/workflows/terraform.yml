@@ -79,19 +79,20 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: test SCP3
       run: gcloud config list
-    - name: Run Workflow
-      id: write_file
-      uses: timheuer/base64-to-file@v1
-      with:
-        fileName: 'terraform-sa-key.json'
-        encodedString: ${{ secrets.GKE_SA_KEY }}
+#    - name: Run Workflow
+#      id: write_file
+#      uses: timheuer/base64-to-file@v1
+#      with:
+#        fileName: 'terraform-sa-key.json'
+#        encodedString: ${{ secrets.GKE_SA_KEY }}
 
 #    - name: Some other step
 #      uses: actions/someaction@master5
 #      with:
 #        filelocation: ${{ steps.write_file.outputs.filePath }}
-#    - name: test SCP2
-#      run: make get-token >> terraform-sa-key.json
+    - name: test SCP2
+      run: ${{ secrets.GKE_SA_KEY }} > terraform-sa-key.json
+#      run: gcloud auth print-access-token base64 terraform-sa-key.json
     - name: test SCP1
       run: |
         ls -a

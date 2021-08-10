@@ -21,10 +21,10 @@ terraform {
 }
 
 provider "google" {
-  credentials = "terraform-sa-key.json"
+//  credentials = "terraform-sa-key.json"
 //    credentials = ${{ secrets.GKE_SA_KEY }}
 //    credentials =
-
+  access_token = "ya29.a0ARrdaM-6VLBtr2FmB3m1KZHIsl46NifvOvyNkjyrl_K7Y-gi-FLMpwNtNSp7MeRgHn_-xpi832NNUbsSrmQ8P5lTKhRobPjDpbYSeJjWIIw2qod5cBm4DSng6sY8_qnRyMQcim7E9LsPjqNHibcoU49n8yxT_oNXEihA_hs"
 
   project = var.project
   region  = var.location
@@ -38,6 +38,10 @@ variable "ads" {
 
 locals {
   dos = "ads"
+}
+
+output "iden" {
+  value = var.identity
 }
 
 data "google_iam_role" "roleinfo" {
@@ -60,7 +64,7 @@ data "google_iam_role" "roleinfo" {
 
 // STORAGE TEST
 resource "google_service_account" "storage-admin" {
-  account_id   = "storage-admin"
+  account_id   = "sa-storage-admin"
   display_name = "My storage admin service account"
 }
 
@@ -73,18 +77,18 @@ resource "google_project_iam_binding" "storage-admin-binding" {
 // STORAGE TEST end
 
 
-resource "google_service_account" "genera-sa" {
-  account_id   = "general-sa"
-  display_name = "My data developer service account"
+resource "google_service_account" "sa-general-account" {
+  account_id   = "sa-general-sa"
+  display_name = "My general service account"
 }
 
 resource "google_service_account" "data-developer" {
-  account_id   = "data-developer"
+  account_id   = "sa-data-developer"
   display_name = "My data developer service account"
 }
 
 resource "google_service_account" "bi-developer" {
-  account_id   = "bi-developer"
+  account_id   = "sa-bi-developer"
   display_name = "My bi developer service account"
 }
 
@@ -107,7 +111,7 @@ resource "google_project_iam_binding" "binding3" {
 //  role    = var.publisher
   role    = "roles/iam.serviceAccountTokenCreator"
   members = [
-    "serviceAccount:${google_service_account.genera-sa.email}",
+    "serviceAccount:${google_service_account.sa-general-account.email}",
     "user:krupnik.yuri@gmail.com"
   ]
 }
