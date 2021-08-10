@@ -71,9 +71,9 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
-    - run: echo ${secrets.GKE_SA_KEY}
-    - run: echo $(secrets.GKE_SA_KEY)
-    - run: echo $secrets.GKE_SA_KEY
+#    - run: echo ${secrets.GKE_SA_KEY}
+#    - run: echo $(secrets.GKE_SA_KEY)
+#    - run: echo $secrets.GKE_SA_KEY
 
     - uses: google-github-actions/setup-gcloud@v0.2.0
       with:
