@@ -22,7 +22,7 @@ use-sa:
 projects:
 	gcloud projects list --impersonate-service-account=general-sa@mussia8.iam.gserviceaccount.com
 set-auth:
-	gcloud config set auth/impersonate_service_account yuris-persona-sa@mussia8.iam.gserviceaccount.com
+	gcloud config set auth/impersonate_service_account sa-general-sa@mussia8.iam.gserviceaccount.com
 unset-auth:
 	gcloud config unset auth/impersonate_service_account
 test-gcs:

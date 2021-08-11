@@ -1,5 +1,5 @@
 variable "project" {
-//  default = "mussia8"
+  default = "mussia8"
 }
 variable "location" {
   default = "europe-west1"
